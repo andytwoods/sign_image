@@ -1,12 +1,12 @@
 # sign_image
 
-A new Flutter project.
+Decorate images.
 
-![alt text](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png)
+![alt text](https://github.com/andytwoods/sign_image/blob/master/assets/image.png)
 
 ## Getting Started
 
-I'm a futter newbie so would appreciate any advice :) Pull requests most welcome :)
+I'm a flutter newbie so would appreciate any advice :) Pull requests most welcome :)
 
 For my own needs, I only need a single point shown on the image. It would be straightforward to adapt this to show drawings.
 
