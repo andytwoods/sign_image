@@ -11,12 +11,14 @@ class MarkImageFormField extends FormField<Position> {
   @required
   final String image;
   final bool enabled;
+  final bool singlePoint;
 
   MarkImageFormField({
     this.onChanged,
     this.data,
     this.image,
     this.enabled = true,
+    this.singlePoint = false,
     FormFieldSetter<Position> onSaved,
     FormFieldValidator<Position> validator,
     Position initialValue,
@@ -33,6 +35,7 @@ class MarkImageFormField extends FormField<Position> {
             children: <Widget>[
               Flexible(
                 child: MarkImage(
+                  singlePoint: true,
                   enabled: enabled,
                   imageNam: image,
                   initialValue: initialValue,
@@ -62,10 +65,11 @@ class MarkImage extends StatefulWidget {
   final String imageNam;
   final Position initialValue;
   final bool enabled;
+  final bool singlePoint;
 
   final Function(Position p) onChanged;
 
-  MarkImage({this.onChanged, this.imageNam, this.initialValue, this.enabled = true});
+  MarkImage({this.onChanged, this.imageNam, this.initialValue, this.enabled = true, this.singlePoint = false});
 }
 
 class _MarkImageState extends State<MarkImage> {
@@ -113,11 +117,15 @@ class _MarkImageState extends State<MarkImage> {
           padding: const EdgeInsets.all(10.0),
           child: widget.enabled ? Listener(
             behavior: HitTestBehavior.deferToChild,
+            //onPointerMove could be used for continuous lines
             onPointerDown: (PointerDownEvent e) {
               RenderBox referenceBox = context.findRenderObject();
               Offset offset = referenceBox.globalToLocal(e.position);
               setState(() {
-                _points = [offset];
+
+                if(widget.singlePoint)  _points = [offset];
+                else _points.add(offset);
+
                 if (widget.onChanged != null) {
                   Rect rect = rectGetter.getRect();
                   double x = offset.dx / rect.width * 100;
